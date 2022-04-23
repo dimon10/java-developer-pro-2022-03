@@ -1,29 +1,29 @@
 package example;
 
+import testframework.annotation.After;
+import testframework.annotation.Before;
+import testframework.annotation.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import testframework.After;
-import testframework.Before;
-import testframework.Test;
 
 public class ExampleTest {
-
     private static final int INITIAL_TEST_VALUE = 10;
     private static final int FINAL_TEST_VALUE = 20;
     private int testVariable = 0;
 
     @Before
     void setUp() {
-        testVariable = INITIAL_TEST_VALUE;
+        this.testVariable = INITIAL_TEST_VALUE;
     }
 
     @After
     void tearDown() {
-        testVariable = FINAL_TEST_VALUE;
+        this.testVariable = FINAL_TEST_VALUE;
     }
 
     @Test
     void test1_should_passed() {
-        testVariable += 1;
+        testVariable++;
         assertThat(testVariable).isEqualTo(11);
     }
 
@@ -44,7 +44,10 @@ public class ExampleTest {
     @Test
     void test4_should_passed() {
         testVariable += 4;
-        assertThat(testVariable).isEqualTo(14);
+        assertThat(this.testVariable).isEqualTo(14);
     }
 
+    void nonTestMethod() {
+        assertThat(2).isEqualTo(3);
+    }
 }
