@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Runs tests from particular test class and returns results.
+ * Runs tests for particular test class and returns results.
  */
 @Getter
 public class TestRunner {
