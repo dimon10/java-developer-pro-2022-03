@@ -22,7 +22,7 @@ public class TestRunner {
         tests = testExtractor.getTestInstances();
     }
 
-    public List<testframework.TestResult> run() {
+    public List<TestResult> run() {
         testResults.clear();
 
         for (Test test : tests) {
@@ -32,24 +32,20 @@ public class TestRunner {
         return this.testResults;
     }
 
-    private TestResult run(testframework.Test test) {
+    private TestResult run(Test test) {
         TestResult testResult = new TestResult(test, TestStatus.NOT_STARTED, null);
+        Object testClassObject = test.getTestClassInstance();
         Instant startTime = Instant.now();
 
         try {
-            Object testClassObject = test.getTestClassInstance();
-
+            //Before method execution
             if (test.hasBeforeMethod()) {
                 invokeMethod(test.getBeforeMethod().getName(), testClassObject);
             }
 
+            //Test method execution
             invokeMethod(test.getTestMethod().getName(), testClassObject);
 
-            if (test.hasAfterMethod()) {
-                this.invokeMethod(test.getAfterMethod().getName(), testClassObject);
-            }
-
-            testResult.setStatus(TestStatus.PASSED);
         } catch (Throwable e) {
             if (e.getCause() instanceof AssertionError) {
                 testResult.setStatus(TestStatus.FAILED);
@@ -59,6 +55,13 @@ public class TestRunner {
 
             testResult.setError(e.getCause());
         } finally {
+            //After method execution
+            Throwable e = executeAfterMethod(test, testClassObject);
+
+            if (testResult.getStatus() == TestStatus.NOT_STARTED) {
+                var testStatus = e == null ? TestStatus.PASSED : TestStatus.BROKEN;
+                testResult.setStatus(testStatus);
+            }
             Instant endTime = Instant.now();
             testResult.setDuration(Duration.between(startTime, endTime));
         }
@@ -70,6 +73,18 @@ public class TestRunner {
         Method method = classObject.getClass().getDeclaredMethod(methodName);
         method.setAccessible(true);
         method.invoke(classObject);
+    }
+
+    private Throwable executeAfterMethod(Test test, Object testClassObject) {
+        try {
+            if (test.hasAfterMethod()) {
+                this.invokeMethod(test.getAfterMethod().getName(), testClassObject);
+            }
+        } catch (Throwable e) {
+            return e;
+        }
+
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package example;
 
+import lombok.Getter;
 import testframework.annotation.After;
 import testframework.annotation.Before;
 import testframework.annotation.Test;
@@ -7,18 +8,23 @@ import testframework.annotation.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExampleTest {
-    private static final int INITIAL_TEST_VALUE = 10;
-    private static final int FINAL_TEST_VALUE = 20;
-    private int testVariable = 0;
+    public static final int BEFORE_TEST_VALUE = 100;
+    public static final int AFTER_TEST_VALUE = 200;
+    @Getter
+    private int testVariable = 10;
+    @Getter
+    private int testVariableForBeforeMethod = 0;
+    @Getter
+    private int testVariableForAfterMethod = 0;
 
     @Before
     void setUp() {
-        this.testVariable = INITIAL_TEST_VALUE;
+        this.testVariableForBeforeMethod = BEFORE_TEST_VALUE;
     }
 
     @After
     void tearDown() {
-        this.testVariable = FINAL_TEST_VALUE;
+        this.testVariableForAfterMethod = AFTER_TEST_VALUE;
     }
 
     @Test
