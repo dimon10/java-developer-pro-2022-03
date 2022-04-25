@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    implementation ('org.junit.jupiter:junit-jupiter-api')
+    implementation ('org.junit.jupiter:junit-jupiter-engine')
+    implementation ('org.assertj:assertj-core')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/test/java/example']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.with {
+        encoding = 'UTF-8'
+    }
+}
+
+application {
+    mainClass = 'testframework.Main'
+}
