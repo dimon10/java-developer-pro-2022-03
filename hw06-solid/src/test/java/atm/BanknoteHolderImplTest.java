@@ -1,5 +1,8 @@
 package atm;
 
+import atm.exception.BanknoteHolderIsFull;
+import atm.exception.NotEnoughBanknotesException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +28,7 @@ class BanknoteHolderImplTest {
         banknoteHolder = new BanknoteHolderImpl(Banknote.FIVE, 10);
         banknoteHolder.addBanknotes(5);
         assertThatThrownBy(() -> banknoteHolder.addBanknotes(6))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BanknoteHolderIsFull.class)
                 .hasMessage("Maximum banknote holder capacity exceeded: 11 > 10");
     }
 
@@ -44,7 +47,7 @@ class BanknoteHolderImplTest {
         banknoteHolder = new BanknoteHolderImpl(Banknote.FIVE, 10);
         banknoteHolder.addBanknotes(5);
         assertThatThrownBy(() -> banknoteHolder.removeBanknotes(6))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NotEnoughBanknotesException.class)
                 .hasMessage("Attempt to take from the banknote holder more than is available: 6 > 5");
     }
 

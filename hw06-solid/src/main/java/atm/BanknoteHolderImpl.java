@@ -1,5 +1,7 @@
 package atm;
 
+import atm.exception.BanknoteHolderIsFull;
+import atm.exception.NotEnoughBanknotesException;
 import lombok.Getter;
 
 /**
@@ -27,7 +29,7 @@ public class BanknoteHolderImpl implements BanknoteHolder {
         }
 
         if (newBanknotesCount > getCapacity()) {
-            throw new IllegalArgumentException(String.format("Maximum banknote holder capacity exceeded: %d > %d",
+            throw new BanknoteHolderIsFull(String.format("Maximum banknote holder capacity exceeded: %d > %d",
                     newBanknotesCount, getCapacity()));
         }
         this.banknotesCount = newBanknotesCount;
@@ -42,7 +44,7 @@ public class BanknoteHolderImpl implements BanknoteHolder {
         }
 
         if (newBanknotesCount < 0) {
-            throw new IllegalArgumentException(String.format("Attempt to take from the banknote holder more than " +
+            throw new NotEnoughBanknotesException(String.format("Attempt to take from the banknote holder more than " +
                             "is available: %d > %d", count, getBanknotesCount()));
         }
         this.banknotesCount = newBanknotesCount;
