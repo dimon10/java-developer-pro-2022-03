@@ -1,4 +1,4 @@
-package ru.otus;
+package atm;
 
 import com.google.common.base.Strings;
 
