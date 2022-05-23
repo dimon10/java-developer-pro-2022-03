@@ -3,10 +3,7 @@ package atm;
 import atm.exception.BanknoteNotAcceptException;
 import atm.exception.SumExceedException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AtmImpl implements Atm {
 
@@ -62,7 +59,7 @@ public class AtmImpl implements Atm {
     }
 
     @Override
-    public Banknote[] giveOutCash(int sum) {
+    public List<Banknote> giveOutCash(int sum) {
         if (sum < 1) {
             throw new IllegalArgumentException("Requested sum less than 1");
         }
@@ -72,14 +69,14 @@ public class AtmImpl implements Atm {
             throw new SumExceedException(String.format("Requested sum more than Atm balance: %d > %d", sum, balance));
         }
 
-        var result = new Banknote[]{};
-        try {
-            result = AtmCalculator.checkForCashOutOperation(this.banknoteHolders, sum);
-        } catch (Exception e) {
+        var banknotes = AtmCalculator.checkForCashOutOperation(this.banknoteHolders.values(), sum);
+        banknotes.forEach(banknote -> {
+            removeBanknoteFromAtm(banknote);
+            System.out.println("You get banknote: " + banknote);
+        });
 
-        }
-
-        return result;
+        printBalance();
+        return banknotes;
     }
 
     @Override
@@ -92,5 +89,9 @@ public class AtmImpl implements Atm {
         return banknoteHolders.values().stream()
                 .map(BanknoteHolder::getTotalSum)
                 .reduce(0, Integer::sum);
+    }
+
+    private void removeBanknoteFromAtm(Banknote banknote) {
+        banknoteHolders.get(banknote).removeBanknotes(1);
     }
 }

@@ -18,4 +18,13 @@ public enum Banknote {
     Banknote(Integer denomination) {
         this.denomination = denomination;
     }
+
+    public static Banknote valueOfDenomination(Integer denomination) {
+        for (Banknote e : values()) {
+            if (e.getDenomination().equals(denomination)) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

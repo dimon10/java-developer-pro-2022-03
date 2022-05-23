@@ -1,5 +1,7 @@
 package atm;
 
+import java.util.List;
+
 /**
  * Atm can accept banknotes, give out banknotes and inform about it balance.
  */
@@ -20,7 +22,7 @@ public interface Atm {
      * @param sum
      * @return
      */
-    Banknote[] giveOutCash(int sum);
+    List<Banknote> giveOutCash(int sum);
 
     /**
      * Prints Atm balance.
