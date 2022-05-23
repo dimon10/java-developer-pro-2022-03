@@ -1,6 +1,6 @@
 package atm;
 
-import atm.exception.CannotChangeSumException;
+import atm.exception.CannotCashOutSumException;
 import atm.exception.SumExceedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,7 +92,7 @@ class AtmImplTest {
                 Banknote.TEN, Banknote.TEN,
                 Banknote.TWO, Banknote.TWO, Banknote.TWO,
                 Banknote.ONE);
-        assertThatThrownBy(() -> atm.giveOutCash(19)).isInstanceOf(CannotChangeSumException.class);
+        assertThatThrownBy(() -> atm.giveOutCash(19)).isInstanceOf(CannotCashOutSumException.class);
     }
 
     @Test

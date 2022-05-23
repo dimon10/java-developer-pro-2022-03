@@ -1,7 +1,6 @@
 package atm;
 
-import atm.exception.CannotChangeSumException;
-import atm.exception.NotEnoughBanknotesException;
+import atm.exception.CannotCashOutSumException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,8 +8,8 @@ import java.util.stream.Collectors;
 public final class AtmCalculator {
 
     /**
-     * Tries to change particular sum with available banknotes in the banknote holders.
-     * Throw {@link CannotChangeSumException} if change operation is not successful
+     * Tries to cash out particular sum with available banknotes in the banknote holders.
+     * Throw {@link CannotCashOutSumException} if cash out operation is not successful
      *
      * @param banknoteHolders
      * @param sum
@@ -35,7 +34,7 @@ public final class AtmCalculator {
                 }
             }
         } catch (Exception e) {
-            throw new CannotChangeSumException("Cannot change sum with available banknotes. Please choose another sum.");
+            throw new CannotCashOutSumException("Cannot change sum with available banknotes. Please choose another sum.");
         }
         return result;
     }
