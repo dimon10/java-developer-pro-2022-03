@@ -3,5 +3,5 @@ package atm.exception;
 import lombok.experimental.StandardException;
 
 @StandardException
-public class BanknoteNotAcceptException extends RuntimeException {
+public class BanknoteNotAcceptException extends AtmException {
 }

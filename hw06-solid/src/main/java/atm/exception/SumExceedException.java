@@ -3,5 +3,5 @@ package atm.exception;
 import lombok.experimental.StandardException;
 
 @StandardException
-public class SumExceedException extends RuntimeException {
+public class SumExceedException extends AtmException {
 }
